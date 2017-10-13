@@ -1,13 +1,17 @@
-import React, { Component } from 'react'
-import logo from './logo.svg'
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 import Navbar from './component/Navbar'
 import './blog.css'
-import PostsList from './component/PostsList'
+import PostsPage from './component/PostsPage'
+import HomePage from './component/HomePage'
 
 const App = () => (
   <div>
     <Navbar />
-    <PostsList />
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/posts" component={PostsPage} />
+    </Switch>
   </div>
 )
 export default App

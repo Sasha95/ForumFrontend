@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PostsItem from './PostItem'
 
 const posts = [

@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const PostsItem = props => (
   <div className="card">
@@ -10,12 +11,14 @@ const PostsItem = props => (
       <li className="list-group-item">{props.body}</li>
     </ul>
     <div className="card-block">
-      <a href="#" className="card-link">
+      <Link to="#" className="card-link">
+        {' '}
         Card link
-      </a>
-      <a href="#" className="card-link">
+      </Link>
+      <Link to="#" className="card-link">
+        {' '}
         Another link
-      </a>
+      </Link>
     </div>
   </div>
 )
