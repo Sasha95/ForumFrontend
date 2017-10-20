@@ -21,9 +21,8 @@ class PostsList extends Component {
 
   render() {
     return (
-      <div className="container"> 
-      <Loading /> 
-      <ul className="list-group">
+      <div className="container">
+        <ul className="list-group">
           {this.state.loading ? <Loading /> : this.state.data.map(a)}
         </ul>
       </div>
