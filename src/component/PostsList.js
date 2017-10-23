@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PostsItem from './PostItem'
 import Loading from './Loading'
+import Pagination from './Pagination'
 
 const a = ({
   id: key,
@@ -20,8 +21,10 @@ class PostsList extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div className="container">
+        <Pagination current={9} numberLinks={5} numberItem={5} count={153} />
         <ul className="list-group">
           {this.state.loading ? <Loading /> : this.state.data.map(a)}
         </ul>

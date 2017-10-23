@@ -25,15 +25,24 @@ const getPages = ({ current, numberLinks, numberItem, count }) => {
 }
 /*Pages({current: 10, numberLinks:5, numberItem:10, count:10})*/
 
-const paginationItem = el => props => (
-  <Link key={el} className="btn btn-outline-primary" href="#">
+const paginationItem = (current, path) => el => (
+  <Link
+    key={el}
+    className={`btn btn-${current === el ? '' : 'outline-'}primary`}
+    to={path + '/' + el}
+  >
     {el}
   </Link>
 )
 
 const Pagination = props => {
   const pages = getPages(props)
-  return <nav className="blog-pagination">{pages.map(PaginationItem)}</nav>
+  console.log(pages)
+  return (
+    <nav className="blog-pagination">
+      {pages.map(paginationItem(props.current, '/posts'))}
+    </nav>
+  )
 }
 
 export default Pagination
