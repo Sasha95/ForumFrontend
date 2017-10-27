@@ -13,18 +13,36 @@ const a = ({
 class PostsList extends Component {
   state = { data: null, loading: true }
 
-  async componentDidMount() {
-    const URL = `http://localhost:4000/posts?_page=1&_limit=2`
+  loadData = async pageNumber => {
+    const URL = `http://localhost:4000/posts?_page=${pageNumber}&_limit=2`
     const res = await fetch(URL)
     const data = await res.json()
     this.setState({ data, loading: false })
   }
 
+  componentDidMount() {
+    this.loadData(this.props.match.params.pageNumber)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.loadData(nextProps.match.params.pageNumber)
+  }
   render() {
-    console.log(this.props)
+    console.log('PostsList', this.props.match.params.pageNumber)
+    const match = this.props.match
     return (
       <div className="container">
-        <Pagination current={9} numberLinks={5} numberItem={5} count={153} />
+        <Pagination
+          path="/posts"
+          current={
+            match.params.pageNumber
+              ? Number(match.params.pageNumber)
+              : undefined
+          }
+          numberLinks={7}
+          numberItem={5}
+          count={153}
+        />
         <ul className="list-group">
           {this.state.loading ? <Loading /> : this.state.data.map(a)}
         </ul>

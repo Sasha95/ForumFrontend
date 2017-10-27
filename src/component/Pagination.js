@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 const range = (n, m) => {
@@ -9,23 +9,20 @@ const range = (n, m) => {
   return element
 }
 
-const getPages = ({ current, numberLinks, numberItem, count }) => {
-  const numberOfPages = Math.floor(count / numberItem)
-  const shift = (numberLinks / 2) | 0
-  if (current > numberOfPages - Math.floor(numberLinks / 2)) {
-    if (numberOfPages - numberLinks - 1) {
-      return range(1, numberOfPages + 1)
-    }
-    return [1, ...range(numberOfPages - numberLinks + 2, numberOfPages + 1)]
+const createArray = ({ current = 1, count, numberItem, numberLinks = 8 }) => {
+  const l = ((count / numberItem) | 0) + 1
+  if (l > numberLinks + 2) {
+    const n = numberLinks - 2
+    const f = current - ((n / 2) | 0) + 1
+    const first = f > 1 ? f : 2
+    if (f + n > l) return [1, ...range(l - n, l + 1)]
+    else return [1, ...range(first, first + n), l]
+  } else {
+    return range(1, l + 1)
   }
-  if (current < numberLinks / 2 + 1) {
-    return [...range(1, numberLinks), numberOfPages]
-  }
-  return [1, ...range(current - shift + 1, current + shift), numberOfPages]
 }
-/*Pages({current: 10, numberLinks:5, numberItem:10, count:10})*/
 
-const paginationItem = (current, path) => el => (
+const pafinationItem = (path, current = 1) => el => (
   <Link
     key={el}
     className={`btn btn-${current === el ? '' : 'outline-'}primary`}
@@ -35,14 +32,18 @@ const paginationItem = (current, path) => el => (
   </Link>
 )
 
-const Pagination = props => {
-  const pages = getPages(props)
-  console.log(pages)
-  return (
-    <nav className="blog-pagination">
-      {pages.map(paginationItem(props.current, '/posts'))}
-    </nav>
-  )
+class Pagination extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return !!nextProps.count
+  }
+  render() {
+    const { path, ...rest } = this.props
+    return (
+      <nav className="blog-pagination">
+        {createArray(rest).map(pafinationItem(path, rest.current))}
+      </nav>
+    )
+  }
 }
 
 export default Pagination
