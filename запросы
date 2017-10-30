@@ -1,0 +1,19 @@
+
+query($numberItems: Int){
+  allPeople(first: $numberItems) {
+    edges {
+      node {
+        name
+      }
+    }
+  }
+}
+
+
+
+
+
+{
+  "numberItems": 1
+}
+---------------
