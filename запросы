@@ -17,3 +17,45 @@ query($numberItems: Int){
   "numberItems": 1
 }
 ---------------
+
+
+query ($numberItems: Int) {
+  allPeople(first: $numberItems, after: "WyJwcmltYXJ5X2tleV9hc2MiLFsxMF1d") {
+    totalCount   
+    edges {     
+      node {
+        name
+      }
+      cursor
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage    
+    }
+  }
+}
+
+---------------------------------------
+
+{
+  person(nodeId: "WyJwZW9wbGUiLDExXQ==") {
+    nodeId
+    id
+    name
+    about
+    postsByPersonId {
+      nodes {
+        nodeId
+        id
+        title
+      }
+    }
+  }
+  postById(id: 35) {
+    id
+    title
+    body
+  }
+}
