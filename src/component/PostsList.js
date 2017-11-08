@@ -6,23 +6,33 @@ import Pagination from './Pagination'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-const a = ({ id: key, title: header, person: author, textPreview: body }) => (
-  <PostsItem key={key} header={header} body={body} author={author} />
-)
+const a = ({ id, ...rest }) => <PostsItem key={id} {...rest} />
 
 const POSTS_QUERY = gql`
-  query {
-    todos {
-      text
+  query($offset: Int, $first: Int) {
+    allPosts(offset: $offset, first: $first) {
+      nodes {
+        id
+        personId
+        person: personByPersonId {
+          name
+        }
+        title
+        body: preview
+      }
     }
   }
 `
 
-class PostsList extends Component {
-  state = { data: null, loading: true }
+const parameters = {
+  options: ({ match }) => ({
+    variables: { offset: match.params.pageNumber * 10, first: 5 }
+  })
+}
 
+class PostsList extends Component {
   render() {
-    console.log('PostsList', this.props.match.params.pageNumber)
+    console.log('PostsList', this.props)
     const match = this.props.match
     return (
       <div className="container">
@@ -38,11 +48,17 @@ class PostsList extends Component {
           count={153}
         />
         <ul className="list-group">
-          {this.state.loading ? <Loading /> : this.state.data.map(a)}
+          {this.props.data.loading ? (
+            <Loading />
+          ) : (
+            this.props.data.allPosts.nodes.map(a)
+          )}
         </ul>
       </div>
     )
   }
 }
 
-export default PostsList
+const b = graphql(POSTS_QUERY, parameters)
+
+export default b(PostsList)

@@ -39,7 +39,7 @@ class Pagination extends Component {
   render() {
     const { path, ...rest } = this.props
     return (
-      <nav className="blog-pagination">
+      <nav className="blog-pagination" style={{ textAlign: 'center' }}>
         {createArray(rest).map(pafinationItem(path, rest.current))}
       </nav>
     )
