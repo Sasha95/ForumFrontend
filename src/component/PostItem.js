@@ -5,7 +5,7 @@ const PostsItem = props => (
   <div className="card">
     <div className="card-block">
       <h4 className="card-title">{props.header}</h4>
-      <p className="card-text">{props.author}</p>
+      <p className="card-text">{props.author.name}</p>
     </div>
     <ul className="list-group list-group-flush">
       <li className="list-group-item">{props.body}</li>

@@ -3,30 +3,24 @@ import PostsItem from './PostItem'
 import Loading from './Loading'
 import Pagination from './Pagination'
 
-const a = ({
-  id: key,
-  title: header,
-  person_name: author,
-  textPreview: body
-}) => <PostsItem key={key} header={header} body={body} author={author} />
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
+
+const a = ({ id: key, title: header, person: author, textPreview: body }) => (
+  <PostsItem key={key} header={header} body={body} author={author} />
+)
+
+const POSTS_QUERY = gql`
+  query {
+    todos {
+      text
+    }
+  }
+`
 
 class PostsList extends Component {
   state = { data: null, loading: true }
 
-  loadData = async pageNumber => {
-    const URL = `http://localhost:4000/posts?_page=${pageNumber}&_limit=2`
-    const res = await fetch(URL)
-    const data = await res.json()
-    this.setState({ data, loading: false })
-  }
-
-  componentDidMount() {
-    this.loadData(this.props.match.params.pageNumber)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.loadData(nextProps.match.params.pageNumber)
-  }
   render() {
     console.log('PostsList', this.props.match.params.pageNumber)
     const match = this.props.match
