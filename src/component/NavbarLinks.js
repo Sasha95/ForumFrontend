@@ -6,7 +6,7 @@ const links = [
   { name: 'Home', link: '/', key: 0 },
   { name: 'Features', link: '/posts', key: 1 },
   { name: 'Press', link: '/press', key: 2 },
-  { name: 'Hires', link: '/hires', key: 3 },
+  { name: 'Signup', link: '/signup', key: 3 },
   { name: 'About', link: '/about', key: 4 }
 ]
 

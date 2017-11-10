@@ -31,11 +31,24 @@ const parameters = {
 }
 
 class PostsList extends Component {
+  shouldComponentUpdate(nextProps) {
+    return !nextProps.data.loading
+  }
+  componentDidMount(prevProps) {
+    window.scrollTo(0, 0)
+  }
   render() {
     console.log('PostsList', this.props)
     const match = this.props.match
     return (
       <div className="container">
+        <ul className="list-group">
+          {this.props.data.loading ? (
+            <Loading />
+          ) : (
+            this.props.data.allPosts.nodes.map(a)
+          )}
+        </ul>
         <Pagination
           path="/posts"
           current={
@@ -47,13 +60,6 @@ class PostsList extends Component {
           numberItem={5}
           count={153}
         />
-        <ul className="list-group">
-          {this.props.data.loading ? (
-            <Loading />
-          ) : (
-            this.props.data.allPosts.nodes.map(a)
-          )}
-        </ul>
       </div>
     )
   }
